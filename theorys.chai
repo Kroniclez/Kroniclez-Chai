@@ -1,0 +1,16 @@
+// Thoery Crafting with da fookin boiz
+
+// Restricting weapons using Weaponclass checks?
+
+def restrict(player) {
+    var weapon = player.getCurrentWeapon();
+    var weaponClass = level.weaponClass(weapon);
+    var pNum = player.getEntityNumber();
+
+    if(weaponClass != "sniper") {
+        player.iPrintlnBold("Weapon Replaced - Snipers Only");
+        // Something to take and replace weapon here?
+        // extra checks for certain weapons to be allowed. Pistols Certain primarys etc.
+        }
+    }
+}
