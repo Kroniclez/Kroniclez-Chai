@@ -1,19 +1,81 @@
+// Suicide is Painlesssss
+global spawned = Vector();
+for(var i = 0; i < 18; ++i) { spawned.push_back(0); }
+
+global Warning = Vector();
+for(var i = 0; i < 18; ++i) { sniperWarning.push_back(0); }
+
+global playerscore = Vector();
+for(var i = 0; i < 18; ++i) { playerscore.push_back(0); }
+
 // Kill me.
 level.onNotify("connected", fun(arguments) {
     var player = arguments[0];
     var pNum = player.getEntityNumber();
-
+    sniperWarning[pNum] = 0;
+    
 player.onNotify("spawned_player", fun[player](arguments) {
 	spawnMsg(player);
 
 	});
+
+    player.onNotify("killed_enemy", fun[player, pNum](arguments) {
+        sniperCheck(player);
+        cooldownCheck(player, pNum);
+    });
 });
 
+// Handles one time Spawn Message similiar to IW4 Poggerz
 def spawnMsg(player) 
 {
-
+    var pNum = player.getEntityNumber();\
+    if(spawned[pNum] == 0) {
 	player.iPrintlnBold("Welcome to 71st X Server blabla");
+        }
 
+    spawned[pNum] = 1;
+}
+
+// Explains itself.
+def sniperCheck(player) {
+    var weapon = player.getCurrentWeapon();
+    var weaponClass = level.weaponClass(weapon);
+    var pNum = player.getEntityNumber();
+
+    if (weaponClass == "sniper") {
+        playerscore[pNum] += 50;
+    }
+
+    if(weaponClass != "sniper") {
+        Warning[pNum] += 1;
+
+        if (Warning[pNum] == 2) {
+            player.kick(pNum)
+        } else {
+          player.suicide();
+
+          player.iPrintlnBold("Snipers only. Last Warning");
+          player.iPrintln("Warnings: ^1" + to_string(Warning[pNum]));
+        }
+    }
+}
+
+def cooldownCheck(player, pNum) {
+    var scorelimit = level.getDvarInt("scr_dm_scorelimit");
+
+    if ((scorelimit - playerscore[pNum]) == 50) {
+        player.iPrintlnBold("You are on last. Trickshot or be Kicked.");
+
+    }
 }
 
 
+// Reduce max health to remove hit markers? :thonk:
+
+player.onNotify("damage", fun[player, pNum](arguments) {
+        if(player.get("health") > 0){
+            player.set("health",80);
+        }
+    });
+
+// 101 Ways to avoid Chai Script book coming soon
