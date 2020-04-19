@@ -12,7 +12,7 @@ for(var i = 0; i < 18; ++i) { playerscore.push_back(0); }
 level.onNotify("connected", fun(arguments) {
     var player = arguments[0];
     var pNum = player.getEntityNumber();
-    sniperWarning[pNum] = 0;
+    Warning[pNum] = 0;
     
 player.onNotify("spawned_player", fun[player](arguments) {
 	spawnMsg(player);
