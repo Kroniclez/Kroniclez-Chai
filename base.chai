@@ -1,0 +1,19 @@
+// Kill me.
+level.onNotify("connected", fun(arguments) {
+    var player = arguments[0];
+    var pNum = player.getEntityNumber();
+
+player.onNotify("spawned_player", fun[player](arguments) {
+	spawnMsg(player);
+
+	});
+});
+
+def spawnMsg(player) 
+{
+
+	player.iPrintlnBold("Welcome to 71st X Server blabla");
+
+}
+
+
